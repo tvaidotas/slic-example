@@ -1,0 +1,2 @@
+# slic-example
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a8f3ccdbe014401da2d21981bb925241)](https://app.codacy.com/app/JoshuaGomersall/slic-example?utm_source=github.com&utm_medium=referral&utm_content=JoshuaGomersall/slic-example&utm_campaign=Badge_Grade_Dashboard)
