@@ -4,7 +4,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.util.{Failure, Success}
 
-object Main extends App {
+object Main extends App{
 
   // The config string refers to mysqlDB that we defined in application.conf
   val db = Database.forConfig("mysqlDB")
@@ -42,15 +42,17 @@ object Main extends App {
   def runQuery = {
     val insertPeople = Future {
       val query = peopleTable ++= Seq(
-        (10, "Jack", "Wood", 36),
-        (20, "Tim", "Brown", 24)
+        (1, "Jack", "Wood", 36),
+        (1, "Tim", "Brown", 24)
       )
     // insert into `PEOPLE` (`PER_FNAME`,`PER_LNAME`,`PER_AGE`)  values (?,?,?)
     println(query.statements.head) // would print out the query one line up
     db.run(query)
     }
     Await.result(insertPeople, Duration.Inf).andThen {
-      case Success(_) => listPeople
+      case Success(_) =>
+        {listPeople
+        println("WE GOT IT LAD")}
       case Failure(error) => println("Welp! Something went wrong! " + error.getMessage)
     }
   }
