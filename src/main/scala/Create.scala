@@ -26,7 +26,6 @@ object Create{
         case Failure(error) => println("Welp! Something went wrong! " + error.getMessage)
       }
     }
-
     def listPeople = {
       val queryFuture = Future {
         db.run(peopleTable.result).map(_.foreach {

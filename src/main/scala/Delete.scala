@@ -20,7 +20,6 @@ object Delete{
       val dropFuture = Future{
         db.run(dropPeopleCmd)
       }
-      //Attempt to drop the table, Await does not block here
       Await.result(dropFuture, Duration.Inf).andThen{
         case Success(_) =>  initialisePeople
         case Failure(error) => println("Dropping the table failed due to: " + error.getMessage)

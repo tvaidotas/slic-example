@@ -25,18 +25,21 @@ object Read {
     }
   }
     listPeople
-    Thread.sleep(10000)
+    Thread.sleep(1000)
   }
 
-  def getOne () :Unit = {
-    val db = Database.forConfig("mysqlDB")
+  def getOne (idInput: Int ,fNameInput: String ,lNameInput: String ,ageInput: Int , exactCheck: Boolean) :Unit = {
+    println(s"With The Peramitors We Found")
+  val db = Database.forConfig("mysqlDB")
       val peopleTable = TableQuery[People]
 
       def listPeople = {
         val queryFuture = Future {
           // simple query that selects everything from People and prints them out
           db.run(peopleTable.result).map(_.foreach {
-            case (id, fName, lName, age) => println(s" $id $fName $lName $age")})
+            case (id, fName, lName, age) =>
+              if (fName == fNameInput && lName == lNameInput && exactCheck){println(s" $id $fName $lName $age")}
+              else if(fName.contains(fNameInput) && lName.contains(lNameInput) && !exactCheck){println(s" $id $fName $lName $age")}})
         }
         Await.result(queryFuture, Duration.Inf).andThen {
           case Success(_) =>  db.close()  //cleanup DB connection
@@ -44,6 +47,6 @@ object Read {
         }
       }
       listPeople
-      Thread.sleep(10000)
+      Thread.sleep(1000)
   }
 }
