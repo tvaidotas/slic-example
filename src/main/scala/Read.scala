@@ -38,8 +38,11 @@ object Read {
           // simple query that selects everything from People and prints them out
           db.run(peopleTable.result).map(_.foreach {
             case (id, fName, lName, age) =>
-              if (fName == fNameInput && lName == lNameInput && exactCheck){println(s" $id $fName $lName $age")}
-              else if(fName.contains(fNameInput) && lName.contains(lNameInput) && !exactCheck){println(s" $id $fName $lName $age")}})
+              exactCheck match {
+                case true => if (fName == fNameInput && lName == lNameInput){println(s" $id $fName $lName $age")}
+                case false => if (fName.contains(fNameInput) && lName.contains(lNameInput)){println(s" $id $fName $lName $age")}
+              }
+          })
         }
         Await.result(queryFuture, Duration.Inf).andThen {
           case Success(_) =>  db.close()  //cleanup DB connection
