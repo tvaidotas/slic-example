@@ -43,13 +43,24 @@ object Delete{
   }
 
 
-  def deleteOne(idInput: Int ,fNameInput: String ,lNameInput: String ,ageInput: Int): Unit = {
+  def deleteOne(fNameInput: String ,lNameInput : String): Unit = {
     val db = Database.forConfig("mysqlDB")
     val peopleTable = TableQuery[People]
 
+
+    def deleteUser = {
+      val dropFuture = Future{
+        db.run(peopleTable.filter(_.fName === fNameInput).filter(_.lName === lNameInput).delete)
+      }
+      //Attempt to drop the table, Await does not block here
+      Await.result(dropFuture, Duration.Inf).andThen{
+        case Success(_) =>  println(s"Done Removing $fNameInput $lNameInput")
+        case Failure(error) => println("Dropping the table failed due to: " + error.getMessage)
+      }
+    }
+
     def listPeople = {
       val queryFuture = Future {
-        // simple query that selects everything from People and prints them out
         db.run(peopleTable.result).map(_.foreach {
           case (id, fName, lName, age) => println(s" $id $fName $lName $age")})
       }
@@ -58,7 +69,7 @@ object Delete{
         case Failure(error) => println("Listing people failed due to: " + error.getMessage)
       }
     }
-    listPeople
+    deleteUser
     Thread.sleep(10000)
   }
 }
