@@ -47,14 +47,14 @@ object Delete{
 
 
 
-  def deleteOne(id: Int ,fName: String ,lName: String ,age: Int): Unit = {
+  def deleteOne(idInput: Int ,fNameInput: String ,lNameInput: String ,ageInput: Int): Unit = {
     val db = Database.forConfig("mysqlDB")
     val peopleTable = TableQuery[People]
 
     def runQuery = {
       val insertPeople = Future {
         val query = peopleTable ++= Seq(
-          (id, fName, lName, age)
+          (idInput, fNameInput, lNameInput, ageInput)
         )
         // insert into `PEOPLE` (`PER_FNAME`,`PER_LNAME`,`PER_AGE`)  values (?,?,?)
         println(query.statements.head) // would print out the query one line up
@@ -63,7 +63,7 @@ object Delete{
       Await.result(insertPeople, Duration.Inf).andThen {
         case Success(_) =>
           listPeople
-          println("WE GOT IT LAD")
+          println("We Got It")
         case Failure(error) => println("Welp! Something went wrong! " + error.getMessage)
       }
     }
