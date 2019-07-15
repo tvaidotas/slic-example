@@ -29,7 +29,7 @@ object Read {
   }
 
   def getOne (idInput: Int ,fNameInput: String ,lNameInput: String ,ageInput: Int , exactCheck: Boolean) :Unit = {
-    println(s"With The Peramitors We Found")
+    println(s"With The Peramitors \n ${if (!exactCheck){"Simiar Match"} else "Exact Match"}   \n Name:$fNameInput \n Surname:$lNameInput \n We Found")
   val db = Database.forConfig("mysqlDB")
       val peopleTable = TableQuery[People]
 

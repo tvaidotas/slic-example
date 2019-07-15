@@ -6,12 +6,13 @@ object Testing {
     Delete.deleteAll()
     Create.newPeople(1,"John","Smith",27)
     Read.getAll()
-    //Read.getOne(10,"John","Smith",34,true)
+    Read.getOne(10,"John","Smith",34,exactCheck = true)
     Create.newPeople(7,"Joe","Simmons",62)
+    Create.newPeople(7,"Matt","Gadd",62)
     Create.newPeople(7,"Joe","Simmons",12)
     Create.newPeople(7,"Joe","Simmons",5)
 
-    //Read.getOne(10,"Joe","Simmons",34,true)
+    Read.getOne(10,"Joe","Simmons",34,exactCheck = true)
 
     if ("Joe".contains("Jo"))
       {
@@ -19,7 +20,7 @@ object Testing {
       }
 
 
-    Read.getOne(10,"Jo","S",34,false)
+    Read.getOne(10,"Jo","S",34,exactCheck = false)
     Thread.sleep(10000)
   }
 }
