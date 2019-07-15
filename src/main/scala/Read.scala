@@ -30,7 +30,7 @@ object Read {
 
   def getOne (idInput: Int ,fNameInput: String ,lNameInput: String ,ageInput: Int , exactCheck: Boolean = true) :Unit = {
     println(s"With The Parameters\n ${if (!exactCheck){"Similar Match"} else "Exact Match"}   \n Name:$fNameInput \n Surname:$lNameInput \n We Found")
-  val db = Database.forConfig("mysqlDB")
+    val db = Database.forConfig("mysqlDB")
       val peopleTable = TableQuery[People]
 
       def listPeople = {
