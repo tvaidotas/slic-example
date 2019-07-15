@@ -5,5 +5,6 @@ object Testing {
     Create.newPeople(1,"John","Smith",57)
     Delete.deleteAll()
     Create.newPeople(1,"John","Smith",27)
+    Read.getAll()
   }
 }
