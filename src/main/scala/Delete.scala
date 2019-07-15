@@ -6,7 +6,6 @@ import scala.concurrent.{Await, Future}
 import scala.util.{Failure, Success}
 
 object Delete{
-
   def deleteAll(): Unit ={
     // The config string refers to mysqlDB that we defined in application.conf
     val db = Database.forConfig("mysqlDB")
@@ -28,7 +27,6 @@ object Delete{
           initialisePeople
       }
     }
-
     def initialisePeople = {
       //initialise people
       val setupFuture =  Future {
@@ -46,41 +44,22 @@ object Delete{
   }
 
 
-
   def deleteOne(idInput: Int ,fNameInput: String ,lNameInput: String ,ageInput: Int): Unit = {
     val db = Database.forConfig("mysqlDB")
     val peopleTable = TableQuery[People]
-
-    def runQuery = {
-      val insertPeople = Future {
-        val query = peopleTable ++= Seq(
-          (idInput, fNameInput, lNameInput, ageInput)
-        )
-        // insert into `PEOPLE` (`PER_FNAME`,`PER_LNAME`,`PER_AGE`)  values (?,?,?)
-        println(query.statements.head) // would print out the query one line up
-        db.run(query)
-      }
-      Await.result(insertPeople, Duration.Inf).andThen {
-        case Success(_) =>
-          listPeople
-          println("We Got It")
-        case Failure(error) => println("Welp! Something went wrong! " + error.getMessage)
-      }
-    }
 
     def listPeople = {
       val queryFuture = Future {
         // simple query that selects everything from People and prints them out
         db.run(peopleTable.result).map(_.foreach {
-          case (id, fName, lName, age) => println(s" $id $fName $lName $age")
-        })
+          case (id, fName, lName, age) => println(s" $id $fName $lName $age")})
       }
       Await.result(queryFuture, Duration.Inf).andThen {
-        case Success(_) => db.close() //cleanup DB connection
+        case Success(_) =>  db.close()  //cleanup DB connection
         case Failure(error) => println("Listing people failed due to: " + error.getMessage)
       }
     }
-    runQuery
-    Thread.sleep(1000)
+    listPeople
+    Thread.sleep(10000)
   }
 }
