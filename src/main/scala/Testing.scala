@@ -63,6 +63,7 @@ object Testing {
         println("Invalid Choice")
         takeUserInputs()
     }
+  }
 
     def readMenu() {
       println(s"1.ReadAll \n2.ReadOne \n3.ReadOne With Length \n4.<= Back \n5.Exit")
@@ -127,5 +128,4 @@ object Testing {
           takeUserInputs()
       }
     }
-  }
 }
