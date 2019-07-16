@@ -11,8 +11,8 @@ object Main extends App {
   // represents the actual table on which we will be building queries on
   val peopleTable = TableQuery[People]
 
-  val dropPeopleCmd = DBIO.seq(peopleTable.schema.drop)
-  val initPeopleCmd = DBIO.seq(peopleTable.schema.create)
+  val dropPeopleCmd = DBIO.seq(peopleTable.schema.dropIfExists)
+  val initPeopleCmd = DBIO.seq(peopleTable.schema.createIfNotExists)
 
   def dropDB = {
     //do a drop followed by initialisePeople
