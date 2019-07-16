@@ -35,8 +35,8 @@ object Testing {
     println("Enter The Last Name To Add")
     val lNameInput = scala.io.StdIn.readLine()
     println("Enter The Age To Add")
-    val age = scala.io.StdIn.readInt()
-    Create.newPeople(1,fNameInput,lNameInput,age)
+    val ageInput = scala.io.StdIn.readInt()
+    Create.newPeople(1,fNameInput,lNameInput,ageInput)
     takeUserInputs()
   }
 
