@@ -42,16 +42,31 @@ object Main extends App {
   def runQuery = {
     val insertPeople = Future {
       val query = peopleTable ++= Seq(
-        (10, "Jack", "Wood", 36),
-        (20, "Tim", "Brown", 24)
+        Person(10, "Jack", "Wood", 36),
+        Person(20, "Tim", "Brown", 24)
       )
     // insert into `PEOPLE` (`PER_FNAME`,`PER_LNAME`,`PER_AGE`)  values (?,?,?)
     println(query.statements.head) // would print out the query one line up
     db.run(query)
     }
     Await.result(insertPeople, Duration.Inf).andThen {
-      case Success(_) => listPeople
+      case Success(_) => updateAge()
       case Failure(error) => println("Welp! Something went wrong! " + error.getMessage)
+    }
+  }
+
+  def updateAge() = {
+    val query = Future {
+      val ageSelected = for {people <- peopleTable if people.age === 36} yield people.age
+      //(for {people <- peopleTable if people.age === 36} yield people.age).update(46)
+      val ageUpdated = ageSelected.update(46)
+      db.run(
+        (for {people <- peopleTable if people.age === 36} yield people.age).update(46)
+      )
+    }
+    Await.result(query, Duration.Inf).andThen {
+      case Success(_) =>  listPeople  //cleanup DB connection
+      case Failure(error) => println("Updating people failed due to: " + error.getMessage)
     }
   }
 
@@ -59,7 +74,7 @@ object Main extends App {
     val queryFuture = Future {
       // simple query that selects everything from People and prints them out
       db.run(peopleTable.result).map(_.foreach {
-        case (id, fName, lName, age) => println(s" $id $fName $lName $age")})
+        case person: Person => println(s" ${person.id} ${person.fName} ${person.lName} ${person.age}")})
     }
     Await.result(queryFuture, Duration.Inf).andThen {
       case Success(_) =>  db.close()  //cleanup DB connection
@@ -69,5 +84,4 @@ object Main extends App {
 
   dropDB
   Thread.sleep(10000)
-
 }
