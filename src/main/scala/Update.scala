@@ -1,10 +1,11 @@
 import slick.jdbc.MySQLProfile.api._
-import scala.concurrent.{Await, Future}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
 import scala.util.{Failure, Success}
 
-object Main extends App{
+object Update extends App{
 
   // The config string refers to mysqlDB that we defined in application.conf
   val db = Database.forConfig("mysqlDB")
@@ -51,8 +52,8 @@ object Main extends App{
     }
     Await.result(insertPeople, Duration.Inf).andThen {
       case Success(_) =>
-        {listPeople
-        println("WE GOT IT LAD")}
+        listPeople
+        println("WE GOT IT LAD")
       case Failure(error) => println("Welp! Something went wrong! " + error.getMessage)
     }
   }
