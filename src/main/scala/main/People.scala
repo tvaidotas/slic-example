@@ -32,8 +32,8 @@ object People {
   class Addresses(tag: Tag) extends Table[Address](tag, "Addresses"){
     def supID = column[Int]("PER_ID")
     def personId =
-      foreignKey("FK", supID, peopleAddressesTable)(
-        _.supID,
+      foreignKey("FK", supID, peopleTable)(
+        _.id,
         onUpdate=ForeignKeyAction.Restrict,
         onDelete=ForeignKeyAction.Cascade)
     def houseNo = column[Int]("HOUSE_No")
