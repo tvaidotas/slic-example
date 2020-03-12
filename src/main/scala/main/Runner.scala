@@ -47,7 +47,7 @@ object Runner extends App {
         ),
         peopleAddressesTable ++= Seq(
           Address(1,1,"blah", "street", "m265pl"),
-          Address(1,1,"blah", "street", "m265pl"),
+          Address(2,2,"blah", "street", "m265pl"),
         )
       )
       db.run(query)
@@ -61,7 +61,6 @@ object Runner extends App {
   def updateAge() = {
     val query = Future {
       val ageSelected = for {people <- peopleTable if people.age === 36} yield people.age
-      val ageUpdated = ageSelected.update(46)
       db.run(
         (for {people <- peopleTable if people.age === 36} yield people.age).update(46)
       )

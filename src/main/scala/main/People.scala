@@ -7,18 +7,19 @@ object People {
   val peopleTable = TableQuery[People]
   val peopleAddressesTable = TableQuery[Addresses]
 
-  case class Person(id: Int, fName: String, lName: String, age: Int)
+  case class Person(
+                     id: Int,
+                     fName: String,
+                     lName: String,
+                     age: Int
+                   )
 
   class People(tag: Tag)
-    extends Table[Person](tag, "PEOPLE") {
+    extends Table[Person](tag, "People") {
     def id = column[Int]("PER_ID", O.PrimaryKey, O.AutoInc)
-
     def fName = column[String]("PER_FNAME")
-
     def lName = column[String]("PER_LNAME")
-
     def age = column[Int]("PER_AGE")
-
     def * = (id, fName, lName, age) <> (Person.tupled, Person.unapply)
   }
 
@@ -27,7 +28,8 @@ object People {
                       houseNo: Int,
                       street:String,
                       city:String,
-                      postCode:String)
+                      postCode:String
+                    )
 
   class Addresses(tag: Tag) extends Table[Address](tag, "Addresses"){
     def supID = column[Int]("PER_ID")
