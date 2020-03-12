@@ -54,7 +54,9 @@ object Main extends App {
 
 
   val operations = dropDB flatMap(res =>initialisePeople) flatMap(res=>runQuery) flatMap(res=>listPeople)
-  operations.onComplete{case scala.util.Success(value) => println("Done with operations")}
+  operations.onComplete{
+    case scala.util.Success(value) => println("Done with operations")
+  }
 
 
   Thread.sleep(10000)
